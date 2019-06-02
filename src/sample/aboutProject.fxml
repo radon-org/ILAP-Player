@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <Label prefHeight="399.0" prefWidth="683.0" text="  ILAP-Player&#10; &#10;  31/05/2018&#10;  ILAP Player is aimed to be a JavaFX based media player which can be controlled using your voice.&#10; &#10;  For next update:&#10;  1. Create a working media player using JavaFX GUI and allow the user to set the path of their folder which contains the movies.&#10;  (Expected release: 04/06/18)&#10; &#10;  Stats for the developers{&#10;      Lines of code(){&#10;          34 lines in 1 class - 22/05/18;           //Objectives completed: 0&#10;          68, 60, 41 lines in 3 classes - 31/05/18; //Objectives completed: 0&#10;      }&#10;  }" />
+    </children>
+</VBox>

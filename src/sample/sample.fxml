@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane fx:id="primaryScene" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #474747;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+   <top>
+      <HBox alignment="CENTER" prefHeight="15.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+         <children>
+              <MenuBar prefHeight="25.0" prefWidth="1920.0" style="-fx-background-color: #C468F4;">
+                  <menus>
+                      <Menu mnemonicParsing="false" style="menu-item: #871616;" text="File">
+                          <items>
+                              <MenuItem fx:id="spDialogue" mnemonicParsing="false" onAction="#openSpDialogue" text="Set Path" />
+                          </items>
+                      </Menu>
+                      <Menu mnemonicParsing="false" text="Help">
+                          <items>
+                              <MenuItem fx:id="fbDialogue" mnemonicParsing="false" onAction="#openFbDialogue" text="Feedback" />
+                              <MenuItem fx:id="abtDialogue" mnemonicParsing="false" onAction="#openAbtDialogue" text="About" />
+                          </items>
+                      </Menu>
+                  </menus>
+              </MenuBar>
+         </children>
+      </HBox>
+   </top>
+   <center>
+      <ScrollPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #474747;" BorderPane.alignment="CENTER">
+         <content>
+            <VBox fx:id="mainContainer" prefHeight="5000.0" prefWidth="1377.0" style="-fx-background-color: #474747;">
+            </VBox>
+         </content>
+      </ScrollPane>
+   </center>
+</BorderPane>
