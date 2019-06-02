@@ -27,7 +27,7 @@ public class Controller {
 
     @FXML
     private VBox mainContainer;
-    private List<Button> movieButtons;
+    private List<Button> chooseMovies;
 
     public void openSpDialogue(ActionEvent a){
         Stage selectPathStage = new Stage();
@@ -74,8 +74,8 @@ public class Controller {
     }
 
     public void getMovies() {
-        movieButtons = new ArrayList<>();
         Path chooseFromPath = Paths.get(path);
+        chooseMovies = new ArrayList<>();
         try (Stream<Path> subPaths = Files.walk(chooseFromPath)) {
             subPaths.forEach(a -> {
                 if(a.toString().contains(".mp4") || a.toString().contains(".avi") ||
@@ -83,7 +83,7 @@ public class Controller {
                    a.toString().contains(".webm") || a.toString().contains(".wav")) {
                     Button button = new Button(a.toString());
                     button.setStyle("-fx-background-color: #C468F4; ");
-                    movieButtons.add(button);
+                    chooseMovies.add(button);
                     mainContainer.getChildren().add(button);
                 }
             });
