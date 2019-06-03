@@ -97,17 +97,23 @@ public class Controller {
 
     public void openFbDialogue(ActionEvent a) throws IOException {
         Stage fbStage = new Stage();
+        fbStage.setTitle("Send your feedback to any of the following e-mails!");
         FXMLLoader fxmlLoader = new FXMLLoader();
         Pane root = fxmlLoader.load(getClass().getResource("feedbackLinks.fxml").openStream());
-        fbStage.setScene(new Scene(root,364,174));
+        fbStage.setScene(new Scene(root,450,174));
         fbStage.showAndWait();
     }
 
     public void openAbtDialogue(ActionEvent a) throws IOException {
         Stage abtStage = new Stage();
+        abtStage.setTitle("About ILAP Player");
         FXMLLoader fxmlLoader = new FXMLLoader();
         Pane root = fxmlLoader.load(getClass().getResource("aboutProject.fxml").openStream());
         abtStage.setScene(new Scene(root, 700, 300));
         abtStage.showAndWait();
+    }
+
+    public void exitPlayer(ActionEvent a) throws Exception {
+        System.exit(0);
     }
 }

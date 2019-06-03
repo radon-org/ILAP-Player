@@ -13,6 +13,7 @@
                       <Menu mnemonicParsing="false" style="menu-item: #871616;" text="File">
                           <items>
                               <MenuItem fx:id="spDialogue" mnemonicParsing="false" onAction="#openSpDialogue" text="Set Path" />
+                        <MenuItem fx:id="exitButton" mnemonicParsing="false" onAction="#exitPlayer" text="Exit" />
                           </items>
                       </Menu>
                       <Menu mnemonicParsing="false" text="Help">
@@ -29,7 +30,7 @@
    <center>
       <ScrollPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #474747;" BorderPane.alignment="CENTER">
          <content>
-            <VBox fx:id="mainContainer" prefHeight="5000.0" prefWidth="1377.0" style="-fx-background-color: #474747;">
+            <VBox fx:id="mainContainer" prefHeight="768.0" prefWidth="1377.0" style="-fx-background-color: #474747;">
             </VBox>
          </content>
       </ScrollPane>
