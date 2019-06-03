@@ -7,12 +7,12 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1376.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.mediaPlayer">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="789.0" prefWidth="1376.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.mediaPlayer">
    <center>
       <MediaView fx:id="player" fitHeight="200.0" fitWidth="200.0" BorderPane.alignment="CENTER" />
    </center>
    <bottom>
-      <HBox prefHeight="58.0" prefWidth="1376.0" BorderPane.alignment="CENTER">
+      <HBox prefHeight="48.0" prefWidth="1376.0" BorderPane.alignment="CENTER">
          <children>
             <Region prefHeight="25.0" prefWidth="575.0" />
             <Button mnemonicParsing="false" onAction="#slow" text="Slow" />
