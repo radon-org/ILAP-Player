@@ -8,6 +8,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
@@ -83,6 +84,18 @@ public class Controller {
                    a.toString().contains(".webm") || a.toString().contains(".wav")) {
                     Button button = new Button(a.toString());
                     button.setStyle("-fx-background-color: #C468F4; ");
+
+                    button.setOnAction(event -> {
+                        try {
+                            mediaPlayer mPObject = new mediaPlayer();
+                            mPObject.path = a.toString();
+                            BorderPane bP = FXMLLoader.load(getClass().getResource("mediaPlayer.fxml"));
+                            mainContainer.getChildren().setAll(bP);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    });
+
                     chooseMovies.add(button);
                     mainContainer.getChildren().add(button);
                 }
