@@ -7,6 +7,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
@@ -21,6 +22,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 public class Controller {
@@ -75,6 +77,8 @@ public class Controller {
     }
 
     public void getMovies() {
+        mainContainer.getChildren().clear();
+
         Path chooseFromPath = Paths.get(path);
         chooseMovies = new ArrayList<>();
         try (Stream<Path> subPaths = Files.walk(chooseFromPath)) {
@@ -82,8 +86,14 @@ public class Controller {
                 if(a.toString().contains(".mp4") || a.toString().contains(".avi") ||
                    a.toString().contains(".flv") || a.toString().contains(".mkv") ||
                    a.toString().contains(".webm") || a.toString().contains(".wav")) {
-                    Button button = new Button(a.toString());
+
+                    String string = a.toString();
+                    String[] parts = string.split(Pattern.quote("\\"));
+
+                    Button button = new Button(parts[parts.length - 1]);
                     button.setStyle("-fx-background-color: #C468F4; ");
+
+                    Label temp = new Label();
 
                     button.setOnAction(event -> {
                         try {
@@ -97,7 +107,7 @@ public class Controller {
                     });
 
                     chooseMovies.add(button);
-                    mainContainer.getChildren().add(button);
+                    mainContainer.getChildren().addAll(button, temp);
                 }
             });
         } catch (IOException E) {}
