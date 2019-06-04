@@ -40,6 +40,9 @@ public class Controller {
     static String path;
     private DirectMediaPlayerComponent mp;
 
+    /*
+    On Action for Set Path
+     */
     public void openSpDialogue(ActionEvent a){
         Stage selectPathStage = new Stage();
         selectPathStage.initModality(Modality.APPLICATION_MODAL);
@@ -53,6 +56,9 @@ public class Controller {
         TextField pathTextField = new TextField();
         Button button = new Button("Select a directory");
 
+        /*
+        Opens JavaFX Directory Chooser
+         */
         button.setOnAction(event -> { File dir = directoryChooser.showDialog(selectPathStage);
 
             boolean update = false;
@@ -87,14 +93,25 @@ public class Controller {
     public void getMovies() {
         mainContainer.getChildren().clear();
 
+        /*
+        Traverse all the files in the given path and initialize an ArrayList to store the path of all those files
+         */
         Path chooseFromPath = Paths.get(path);
         chooseMovies = new ArrayList<>();
+
         try (Stream<Path> subPaths = Files.walk(chooseFromPath)) {
             subPaths.forEach(a -> {
+
+                /*
+                Check for the files with the given extensions only
+                 */
                 if(a.toString().contains(".mp4") || a.toString().contains(".avi") ||
                    a.toString().contains(".flv") || a.toString().contains(".mkv") ||
                    a.toString().contains(".webm") || a.toString().contains(".wav")) {
 
+                    /*
+                    Separate the file name from the path name using split method
+                     */
                     String string = a.toString();
                     String[] parts = string.split(Pattern.quote("\\"));
 
@@ -105,10 +122,14 @@ public class Controller {
 
                     button.setOnAction(event -> {
                         try {
+                            /*
+                            Load VLC
+                             */
                             NativeLibrary.addSearchPath("libvlc", "C:/Users/anshu/IdeaProjects/ILAP Player/src/VideoLAN/VLC");
                             final Canvas canvas = new Canvas(1377, 768);
                             BorderPane borderPane = new BorderPane();
                             borderPane.setCenter(canvas);
+
                             final PixelWriter pixelWriter = canvas.getGraphicsContext2D().getPixelWriter();
                             final WritablePixelFormat<ByteBuffer> byteBgraInstance = PixelFormat.getByteBgraInstance();
 
@@ -127,6 +148,9 @@ public class Controller {
                         }
                     });
 
+                    /*
+                    Add movies, followed by labels in succession
+                     */
                     chooseMovies.add(button);
                     mainContainer.getChildren().addAll(button, temp);
                 }
@@ -139,24 +163,41 @@ public class Controller {
         directoryChooser.setInitialDirectory(new File(System.getProperty("user.home")));
     }
 
+    /*
+    On Action for Feedback
+     */
     public void openFbDialogue(ActionEvent a) throws IOException {
         Stage fbStage = new Stage();
         fbStage.setTitle("Send your feedback to any of the following e-mails!");
+
+        /*
+        Load feedbackLinks.fxml
+         */
         FXMLLoader fxmlLoader = new FXMLLoader();
         Pane root = fxmlLoader.load(getClass().getResource("feedbackLinks.fxml").openStream());
         fbStage.setScene(new Scene(root,450,174));
         fbStage.showAndWait();
     }
 
+    /*
+    On Action for About
+     */
     public void openAbtDialogue(ActionEvent a) throws IOException {
         Stage abtStage = new Stage();
         abtStage.setTitle("About ILAP Player");
+
+        /*
+        Load aboutProject.fxml
+         */
         FXMLLoader fxmlLoader = new FXMLLoader();
         Pane root = fxmlLoader.load(getClass().getResource("aboutProject.fxml").openStream());
         abtStage.setScene(new Scene(root, 700, 300));
         abtStage.showAndWait();
     }
 
+    /*
+    On Action for Exit
+     */
     public void exitPlayer(ActionEvent a) throws Exception {
         System.exit(0);
     }
