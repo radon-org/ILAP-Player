@@ -1,22 +1,30 @@
 package sample;
 
+import com.sun.jna.Memory;
+import com.sun.jna.NativeLibrary;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.PixelFormat;
+import javafx.scene.image.PixelWriter;
+import javafx.scene.image.WritablePixelFormat;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import uk.co.caprica.vlcj.component.DirectMediaPlayerComponent;
 import java.io.File;
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -26,11 +34,11 @@ import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 public class Controller {
-    static String path;
-
     @FXML
     private VBox mainContainer;
     private List<Button> chooseMovies;
+    static String path;
+    private DirectMediaPlayerComponent mp;
 
     public void openSpDialogue(ActionEvent a){
         Stage selectPathStage = new Stage();
@@ -97,11 +105,24 @@ public class Controller {
 
                     button.setOnAction(event -> {
                         try {
-                            mediaPlayer mPObject = new mediaPlayer();
-                            mPObject.path = a.toString();
-                            BorderPane bP = FXMLLoader.load(getClass().getResource("mediaPlayer.fxml"));
-                            mainContainer.getChildren().setAll(bP);
-                        } catch (IOException e) {
+                            NativeLibrary.addSearchPath("libvlc", "C:/Users/anshu/IdeaProjects/ILAP Player/src/VideoLAN/VLC");
+                            final Canvas canvas = new Canvas(1377, 768);
+                            BorderPane borderPane = new BorderPane();
+                            borderPane.setCenter(canvas);
+                            final PixelWriter pixelWriter = canvas.getGraphicsContext2D().getPixelWriter();
+                            final WritablePixelFormat<ByteBuffer> byteBgraInstance = PixelFormat.getByteBgraInstance();
+
+                            mp = new DirectMediaPlayerComponent("RV32", 1377, 768, 1377*4) {
+                                @Override
+                                public void display(Memory nativeBuffer) {
+                                    ByteBuffer byteBuffer = nativeBuffer.getByteBuffer(0, nativeBuffer.size());
+                                    pixelWriter.setPixels(0, 0, 1377, 768, byteBgraInstance, byteBuffer, 1377*4);
+                                }
+                            };
+
+                            mp.getMediaPlayer().playMedia(a.toString());
+                            mainContainer.getChildren().setAll(borderPane);
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                     });
