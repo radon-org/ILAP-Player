@@ -5,7 +5,6 @@ import com.sun.jna.NativeLibrary;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -16,6 +15,7 @@ import javafx.scene.image.PixelFormat;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritablePixelFormat;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
@@ -46,48 +46,31 @@ public class Controller {
     public void openSpDialogue(ActionEvent a){
         Stage selectPathStage = new Stage();
         selectPathStage.initModality(Modality.APPLICATION_MODAL);
-        selectPathStage.setTitle("Select Path");
-        selectPathStage.setMinWidth(400);
-        selectPathStage.setMinHeight(60);
 
         final DirectoryChooser directoryChooser = new DirectoryChooser();
         configuringDirectoryChooser(directoryChooser);
 
         TextField pathTextField = new TextField();
-        Button button = new Button("Select a directory");
 
         /*
         Opens JavaFX Directory Chooser
          */
-        button.setOnAction(event -> { File dir = directoryChooser.showDialog(selectPathStage);
+        File dir = directoryChooser.showDialog(selectPathStage);
 
-            boolean update = false;
+        boolean update = false;
 
-            if (dir != null) {
-                pathTextField.setText(dir.getAbsolutePath());
-                path = pathTextField.getText();
-                update = true;
-            } else {
-                pathTextField.setText(null);
-            }
-            selectPathStage.close();
+        if (dir != null) {
+            pathTextField.setText(dir.getAbsolutePath());
+            path = pathTextField.getText();
+            update = true;
+        } else {
+            pathTextField.setText(null);
+        }
+        selectPathStage.close();
 
-            if(update) {
-                getMovies();
-            }
-        });
-
-        VBox root = new VBox();
-        root.setPadding(new Insets(10));
-        root.setSpacing(5);
-        root.setAlignment(Pos.CENTER);
-        root.getChildren().addAll(pathTextField, button);
-
-        Scene scene = new Scene(root, 400, 60);
-
-        selectPathStage.setTitle("Choose Directory");
-        selectPathStage.setScene(scene);
-        selectPathStage.show();
+        if(update) {
+            getMovies();
+        }
     }
 
     public void getMovies() {
@@ -125,7 +108,7 @@ public class Controller {
                             /*
                             Load VLC
                              */
-                            NativeLibrary.addSearchPath("libvlc", "C:/Users/anshu/IdeaProjects/ILAP Player/src/VideoLAN/VLC");
+                            NativeLibrary.addSearchPath("libvlc", "lib");
                             final Canvas canvas = new Canvas(1377, 768);
                             BorderPane borderPane = new BorderPane();
                             borderPane.setCenter(canvas);
@@ -142,7 +125,36 @@ public class Controller {
                             };
 
                             mp.getMediaPlayer().playMedia(a.toString());
-                            mainContainer.getChildren().setAll(borderPane);
+
+                            Button playButton = new Button("Play");
+                            Button pauseButton = new Button("Pause");
+                            Button skipButton = new Button("Skip 30");
+                            Button backButton = new Button("Back 30");
+
+                            /*
+                            On Action for playback buttons
+                             */
+                            playButton.setOnAction(event1 -> {
+                                mp.getMediaPlayer().play();
+                            });
+
+                            pauseButton.setOnAction(event1 -> {
+                                mp.getMediaPlayer().pause();
+                            });
+
+                            skipButton.setOnAction(event1 -> {
+                                mp.getMediaPlayer().skip(30000);
+                            });
+
+                            backButton.setOnAction(event1 -> {
+                                mp.getMediaPlayer().skip(-30000);
+                            });
+
+                            HBox playbackButtons = new HBox();
+                            playbackButtons.setAlignment(Pos.CENTER);
+                            playbackButtons.getChildren().addAll(backButton, playButton, pauseButton, skipButton);
+
+                            mainContainer.getChildren().setAll(borderPane, playbackButtons);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -158,6 +170,9 @@ public class Controller {
         } catch (IOException E) {}
     }
 
+    /*
+    Set initial directory for directory chooser
+     */
     private static void configuringDirectoryChooser(DirectoryChooser directoryChooser) {
         directoryChooser.setTitle("Select Directory");
         directoryChooser.setInitialDirectory(new File(System.getProperty("user.home")));
