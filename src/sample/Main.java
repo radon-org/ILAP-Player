@@ -11,14 +11,14 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
 
-        /*
-        Loads sample.fxml
+        /**
+         *Loads sample.fxml
          */
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         primaryStage.setTitle("ILAP Player");
 
-        /*
-        Set the stage by taking the screen's dimension
+        /**
+         *Set the stage by taking the screen's dimension
          */
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         double width = screenSize.getWidth();
